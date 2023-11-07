@@ -26,12 +26,22 @@ class NavigationResource extends Resource
                 Forms\Components\Repeater::make('items')->schema([
                     Forms\Components\TextInput::make('title')->required(),
                     Forms\Components\TextInput::make('url')->required()->placeholder('example-page'),
-                    Forms\Components\Checkbox::make('external_link')->label('Open in new tab')
+                    Forms\Components\Checkbox::make('external_link')->label('Open in new tab'),
+                    Forms\Components\Select::make('show_for')->options([
+                        'users' => 'Users',
+                        'everyone' => 'Everyone',
+                        'public' => 'Public'
+                    ])
                 ]),
                 Forms\Components\Repeater::make('items_sidebar')->schema([
                     Forms\Components\TextInput::make('title')->required(),
                     Forms\Components\TextInput::make('url')->required()->placeholder('example-page'),
-                    Forms\Components\Checkbox::make('external_link')->label('Open in new tab')
+                    Forms\Components\Checkbox::make('external_link')->label('Open in new tab'),
+                    Forms\Components\Select::make('show_for')->options([
+                        'users' => 'Users',
+                        'everyone' => 'Everyone',
+                        'public' => 'Public'
+                    ])
                 ]),
                 Forms\Components\ColorPicker::make('bg_color')->label('Background Color'),
                 Forms\Components\Checkbox::make('is_active')

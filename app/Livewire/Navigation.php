@@ -13,7 +13,7 @@ class Navigation extends Component
 
     public function mount()
     {
-        $this->navigation = NavigationModel::first();
+        $this->navigation = NavigationModel::where('is_active', true)->first();
         $this->navigationItems = $this->navigation->items;
         $this->navigationItemsSidebar = $this->navigation->items_sidebar;
     }
