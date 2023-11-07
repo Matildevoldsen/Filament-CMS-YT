@@ -12,6 +12,7 @@
         "filament/filament": "^3.0-stable",
         "filament/spatie-laravel-media-library-plugin": "^3.0-stable",
         "guzzlehttp/guzzle": "^7.2",
+        "hasnayeen/themes": "^3.0",
         "joshembling/image-optimizer": "^1.2",
         "laravel/framework": "^10.10",
         "laravel/jetstream": "^4.0",
