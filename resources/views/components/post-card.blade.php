@@ -6,7 +6,7 @@
         <header class="lg:mb-6 not-format">
             <div class="mb-4">
                 @foreach($post->categories as $category)
-                    <a href="#" wire:navigate>
+                    <a href="{{ route('category.show', $category->slug) }}" wire:navigate>
                 <span style="background-color:{{ $category->bg_color }};color: {{ $category->text_color }};"
                       class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                     {{ $category->title }}

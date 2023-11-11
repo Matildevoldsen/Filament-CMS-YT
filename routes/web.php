@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Models\Post;
@@ -15,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::get('/', HomeController::class)->name('home');
-Route::get('/article/{post:slug}', PostController::class)->name('post.show');
+Route::get('/articles/{post:slug}', PostController::class)->name('post.show');
+Route::get('/categories/{category:slug}', CategoryController::class)->name('category.show');
 
 //Route::middleware([
 //    'auth:sanctum',

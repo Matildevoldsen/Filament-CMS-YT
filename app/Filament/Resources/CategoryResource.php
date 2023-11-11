@@ -27,7 +27,9 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('slug')->required(),
                 Forms\Components\RichEditor::make('content'),
                 Forms\Components\ColorPicker::make('bg_color')->label('Background Color'),
-                Forms\Components\ColorPicker::make('text_color')->label('Text Color')
+                Forms\Components\ColorPicker::make('text_color')->label('Text Color'),
+                Forms\Components\TextInput::make('meta_description'),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('images')->image()->imageEditor()->multiple()
             ]);
     }
 
@@ -35,6 +37,7 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('thumbnail'),
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('slug')->searchable(),
                 Tables\Columns\ColorColumn::make('bg_color'),
