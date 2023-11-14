@@ -29,7 +29,11 @@ class CategoryResource extends Resource
                 Forms\Components\ColorPicker::make('bg_color')->label('Background Color'),
                 Forms\Components\ColorPicker::make('text_color')->label('Text Color'),
                 Forms\Components\TextInput::make('meta_description'),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('images')->image()->imageEditor()->multiple()
+                Forms\Components\SpatieMediaLibraryFileUpload::make('images')
+                    ->image()
+                    ->imageEditor()
+                    ->optimize('webp')
+                    ->multiple()
             ]);
     }
 

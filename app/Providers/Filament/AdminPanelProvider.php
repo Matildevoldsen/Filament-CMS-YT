@@ -6,6 +6,7 @@ use App\Filament\Pages\Home;
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\NavigationResource;
 use App\Filament\Resources\PostResource;
+use App\Filament\Resources\ProductResource;
 use App\Filament\Resources\UserResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -47,6 +48,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
                 return $builder->groups([
+                    NavigationGroup::make('Shop')->items([
+                        ...ProductResource::getNavigationItems()
+                    ]),
                     NavigationGroup::make('Content')->items([
                         ...PostResource::getNavigationItems(),
                         ...CategoryResource::getNavigationItems(),
