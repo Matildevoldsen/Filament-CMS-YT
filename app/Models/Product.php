@@ -25,7 +25,6 @@ class Product extends Model implements HasMedia
         'variants',
         'SKU',
     ];
-
     protected $casts = ['variants' => 'array'];
     public function user(): BelongsTo
     {

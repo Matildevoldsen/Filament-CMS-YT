@@ -17,6 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Saade\FilamentAdjacencyList\Forms\Components\AdjacencyList;
 
 class ProductResource extends Resource
 {
@@ -35,30 +36,31 @@ class ProductResource extends Resource
                         Forms\Components\RichEditor::make('content')->required(),
                         Forms\Components\DatePicker::make('published_at')->required(),
                         Forms\Components\TextInput::make('price')->numeric(),
-                        Forms\Components\TextInput::make('SKU'),
+                        Forms\Components\TextInput::make('SKU')->label('SKU'),
                         Forms\Components\Hidden::make('user_id')
                             ->dehydrateStateUsing(fn($state) => Auth::id()),
                         Forms\Components\Select::make('categories')
                             ->multiple()
                             ->relationship('categories', 'title')
-                    ]),
+                    ])->icon('heroicon-o-document'),
                     Tab::make('Meta')->schema([
                         Forms\Components\TextInput::make('meta_description'),
                         Forms\Components\SpatieMediaLibraryFileUpload::make('images')
+                            ->multiple()
                             ->image()
                             ->optimize('webp')
                             ->image()
                             ->imageEditor()
-                    ]),
+                    ])->icon('heroicon-o-tag'),
                     Tab::make('Variants')->schema([
-                        Forms\Components\Repeater::make('variants')
-                            ->schema([
-                                Forms\Components\TextInput::make('title')->required(),
+                        AdjacencyList::make('variants')
+                            ->form([
+                                Forms\Components\TextInput::make('label')->required(),
                                 Forms\Components\TextInput::make('type')->required(),
                                 Forms\Components\TextInput::make('price')->numeric(),
-                                Forms\Components\TextInput::make('SKU'),
+                                Forms\Components\TextInput::make('SKU')->label('SKU'),
                             ])
-                    ])
+                    ])->icon('heroicon-o-rectangle-stack')
                 ])
             ])->columns(1);
     }
@@ -71,7 +73,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('slug')->searchable(),
                 Tables\Columns\TextColumn::make('price'),
-                Tables\Columns\TextColumn::make('SKU')->searchable(),
+                Tables\Columns\TextColumn::make('SKU')->label('SKU')->searchable(),
                 Tables\Columns\TextColumn::make('published_at'),
                 Tables\Columns\TextColumn::make('categories.title')->searchable()->badge()
             ])
