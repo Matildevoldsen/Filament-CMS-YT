@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Components\RecursiveRepeater;
+use App\Filament\Forms\RecursiveSubRepeater;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Forms\Components\NestedVariants;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\Tabs\Tab;
@@ -19,7 +22,7 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
     public static function form(Form $form): Form
     {
@@ -34,10 +37,10 @@ class ProductResource extends Resource
                         Forms\Components\TextInput::make('price')->numeric(),
                         Forms\Components\TextInput::make('SKU'),
                         Forms\Components\Hidden::make('user_id')
-                            ->dehydrateStateUsing(fn ($state) => Auth::id()),
+                            ->dehydrateStateUsing(fn($state) => Auth::id()),
                         Forms\Components\Select::make('categories')
                             ->multiple()
-                            ->relationship('categories','title')
+                            ->relationship('categories', 'title')
                     ]),
                     Tab::make('Meta')->schema([
                         Forms\Components\TextInput::make('meta_description'),
@@ -47,6 +50,15 @@ class ProductResource extends Resource
                             ->image()
                             ->imageEditor()
                     ]),
+                    Tab::make('Variants')->schema([
+                        Forms\Components\Repeater::make('variants')
+                            ->schema([
+                                Forms\Components\TextInput::make('title')->required(),
+                                Forms\Components\TextInput::make('type')->required(),
+                                Forms\Components\TextInput::make('price')->numeric(),
+                                Forms\Components\TextInput::make('SKU'),
+                            ])
+                    ])
                 ])
             ])->columns(1);
     }
@@ -64,7 +76,9 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('categories.title')->searchable()->badge()
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('categories')
+                    ->multiple()
+                    ->relationship('categories', 'title'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

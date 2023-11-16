@@ -22,8 +22,11 @@ class Product extends Model implements HasMedia
         'published_at',
         'user_id',
         'meta_description',
+        'variants',
         'SKU',
     ];
+
+    protected $casts = ['variants' => 'array'];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
