@@ -41,7 +41,7 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('thumbnail'),
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('thumbnail')->stacked(),
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('slug')->searchable(),
                 Tables\Columns\ColorColumn::make('bg_color'),
