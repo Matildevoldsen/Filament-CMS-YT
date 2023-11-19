@@ -12,6 +12,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\Enums\TiptapOutput;
+use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +34,10 @@ class PostResource extends Resource
                             ->minLength(2),
                         Forms\Components\TextInput::make('slug')->required()
                             ->minLength(2),
-                        Forms\Components\RichEditor::make('content')->required(),
+                        TiptapEditor::make('content')->profile('default')
+                            ->output(TiptapOutput::Json) // optional, change the format for saved data, default is html
+                            ->maxContentWidth('5xl')
+                            ->required(),
                         Forms\Components\Checkbox::make('is_published'),
                         Forms\Components\Checkbox::make('is_featured'),
                         Forms\Components\Hidden::make('user_id')

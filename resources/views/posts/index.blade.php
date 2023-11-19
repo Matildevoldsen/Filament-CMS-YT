@@ -41,7 +41,7 @@
                     </h1>
                 </header>
 
-                {!! $post->content !!}
+                {!! tiptap_converter()->asHTML($post->content) !!}
             </article>
         </div>
     </main>

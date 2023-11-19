@@ -1,0 +1,3 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import '../../../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
+@config './tailwind.config.js';

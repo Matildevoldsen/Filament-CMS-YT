@@ -27,6 +27,8 @@ class Post extends Model implements HasMedia
         'is_featured'
     ];
 
+    public $casts = ['content' => 'array'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
