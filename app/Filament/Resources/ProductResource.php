@@ -16,9 +16,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\TiptapEditor;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Number;
+use Money\Money;
 use Saade\FilamentAdjacencyList\Forms\Components\AdjacencyList;
 
 class ProductResource extends Resource
@@ -37,7 +37,7 @@ class ProductResource extends Resource
                         Forms\Components\TextInput::make('title')->required()->minLength(2),
                         Forms\Components\TextInput::make('slug')->required()->minLength(2),
                         TiptapEditor::make('content')->profile('default')
-                            ->output(TiptapOutput::Html) // optional, change the format for saved data, default is html
+                            ->output(TiptapOutput::Json)
                             ->maxContentWidth('5xl')
                             ->required(),
                         Forms\Components\DatePicker::make('published_at')->required(),
@@ -78,7 +78,7 @@ class ProductResource extends Resource
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('images')->stacked(),
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('slug')->searchable(),
-                Tables\Columns\TextColumn::make('price'),
+                Tables\Columns\TextColumn::make('price')->formatStateUsing(fn ($state) => money($state)),
                 Tables\Columns\TextColumn::make('SKU')->label('SKU')->searchable(),
                 Tables\Columns\TextColumn::make('published_at'),
                 Tables\Columns\TextColumn::make('categories.title')->searchable()->badge()

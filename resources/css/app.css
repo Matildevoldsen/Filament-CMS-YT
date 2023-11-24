@@ -5,3 +5,73 @@
 [x-cloak] {
     display: none;
 }
+
+/* Blockquote */
+blockquote {
+    @apply text-lg font-serif italic border-l-4 border-gray-400 pl-4 my-4;
+}
+
+
+
+/* Unordered List */
+ul {
+    @apply list-disc pl-5 my-2;
+}
+
+/* Ordered List */
+ol {
+    @apply list-decimal pl-5 my-2;
+}
+
+/* Links */
+a {
+    @apply text-indigo-500 hover:text-blue-800;
+}
+
+/* Paragraph */
+p {
+    @apply text-base leading-relaxed my-4;
+}
+
+/* Headings */
+h1 {
+    @apply text-3xl font-bold my-4;
+}
+
+h2 {
+    @apply text-2xl font-semibold my-3;
+}
+
+h3 {
+    @apply text-xl font-semibold my-2;
+}
+
+/* Images */
+img {
+    @apply max-w-full h-auto my-4;
+}
+
+/* Strong/Bold Text */
+strong, b {
+    @apply font-bold;
+}
+
+/* Italic Text */
+em, i {
+    @apply italic;
+}
+
+/* Code */
+code {
+    @apply bg-gray-100 text-sm font-mono p-1 rounded;
+}
+
+/* Preformatted Text (like code blocks) */
+pre {
+    @apply bg-gray-100 text-sm font-mono p-4 my-4 overflow-x-auto;
+}
+
+/* Table */
+table {
+    @apply min-w-full;
+}

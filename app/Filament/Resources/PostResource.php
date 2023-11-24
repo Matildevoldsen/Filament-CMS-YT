@@ -35,7 +35,7 @@ class PostResource extends Resource
                         Forms\Components\TextInput::make('slug')->required()
                             ->minLength(2),
                         TiptapEditor::make('content')->profile('default')
-                            ->output(TiptapOutput::Json) // optional, change the format for saved data, default is html
+                            ->output(TiptapOutput::Json)
                             ->maxContentWidth('5xl')
                             ->required(),
                         Forms\Components\Checkbox::make('is_published'),

@@ -10,8 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Route;
 
 class NavigationResource extends Resource
 {
@@ -25,7 +24,15 @@ class NavigationResource extends Resource
             ->schema([
                 Forms\Components\Repeater::make('items')->schema([
                     Forms\Components\TextInput::make('title')->required(),
-                    Forms\Components\TextInput::make('url')->required()->placeholder('example-page'),
+                    Forms\Components\Select::make('url')
+                        ->searchable()
+                        ->options(function () {
+                            return collect(Route::getRoutes()->getRoutesByMethod()['GET'])->mapWithKeys(function ($route) {
+                                return [$route->getName() => $route->uri()];
+                            });
+                        })
+                        ->required()
+                        ->placeholder('example-page'),
                     Forms\Components\Checkbox::make('external_link')->label('Open in new tab'),
                     Forms\Components\Select::make('show_for')->options([
                         'users' => 'Users',
@@ -35,7 +42,15 @@ class NavigationResource extends Resource
                 ]),
                 Forms\Components\Repeater::make('items_sidebar')->schema([
                     Forms\Components\TextInput::make('title')->required(),
-                    Forms\Components\TextInput::make('url')->required()->placeholder('example-page'),
+                    Forms\Components\Select::make('url')
+                        ->searchable()
+                        ->options(function () {
+                            return collect(Route::getRoutes()->getRoutesByMethod()['GET'])->mapWithKeys(function ($route) {
+                                return [$route->getName() => $route->uri()];
+                            });
+                        })
+                        ->required()
+                        ->placeholder('example-page'),
                     Forms\Components\Checkbox::make('external_link')->label('Open in new tab'),
                     Forms\Components\Select::make('show_for')->options([
                         'users' => 'Users',

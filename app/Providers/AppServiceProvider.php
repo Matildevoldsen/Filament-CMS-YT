@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Filament\Blocks\HelloWorld;
+use App\Filament\Blocks\FaqsBlock;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
         TiptapEditor::configureUsing(function (TiptapEditor $component) {
             $component
                 ->blocks([
-                    HelloWorld::class
+                    FaqsBlock::class
                 ]);
         });
     }
