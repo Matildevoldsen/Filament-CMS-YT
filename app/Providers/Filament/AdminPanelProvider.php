@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Home;
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\NavigationResource;
+use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\PostResource;
 use App\Filament\Resources\ProductResource;
 use App\Filament\Resources\UserResource;
@@ -49,6 +50,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
                 return $builder->groups([
                     NavigationGroup::make('Shop')->items([
+                        ...OrderResource::getNavigationItems(),
                         ...ProductResource::getNavigationItems()
                     ]),
                     NavigationGroup::make('Content')->items([

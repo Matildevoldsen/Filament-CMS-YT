@@ -3,7 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Models\Post;
+use App\Http\Controllers\ProductShowController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', HomeController::class)->name('home');
 Route::get('/articles/{post:slug}', PostController::class)->name('post.show');
+Route::get('/products/{product:slug}', ProductShowController::class)->name('post.show');
 Route::get('/categories/{category:slug}', CategoryController::class)->name('category.show');
 
 //Route::middleware([
