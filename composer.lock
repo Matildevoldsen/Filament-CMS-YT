@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "awcodes/filament-tiptap-editor",
-            "version": "v3.1.7",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/awcodes/filament-tiptap-editor.git",
-                "reference": "1fca55707ef7db4891094dcdf7b1f02b5b8f085d"
+                "reference": "c09a158ca206fb14d7c70980f20a324a564a5ae6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awcodes/filament-tiptap-editor/zipball/1fca55707ef7db4891094dcdf7b1f02b5b8f085d",
-                "reference": "1fca55707ef7db4891094dcdf7b1f02b5b8f085d",
+                "url": "https://api.github.com/repos/awcodes/filament-tiptap-editor/zipball/c09a158ca206fb14d7c70980f20a324a564a5ae6",
+                "reference": "c09a158ca206fb14d7c70980f20a324a564a5ae6",
                 "shasum": ""
             },
             "require": {
@@ -80,7 +80,7 @@
             ],
             "support": {
                 "issues": "https://github.com/awcodes/filament-tiptap-editor/issues",
-                "source": "https://github.com/awcodes/filament-tiptap-editor/tree/v3.1.7"
+                "source": "https://github.com/awcodes/filament-tiptap-editor/tree/v3.2.0"
             },
             "funding": [
                 {
@@ -88,7 +88,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-22T17:47:08+00:00"
+            "time": "2023-11-29T20:20:43+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
