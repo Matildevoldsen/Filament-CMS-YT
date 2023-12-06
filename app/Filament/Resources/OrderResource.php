@@ -20,6 +20,8 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard';
 
+    protected static ?string $recordTitleAttribute = 'order_id';
+
     public static function form(Form $form): Form
     {
         return $form

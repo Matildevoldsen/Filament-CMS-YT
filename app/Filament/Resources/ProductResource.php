@@ -6,6 +6,7 @@ use App\Filament\Components\RecursiveRepeater;
 use App\Filament\Forms\RecursiveSubRepeater;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Filament\Resources\ProductVariationsManagerResource\RelationManagers\ProductVariationsRelationManager;
 use App\Forms\Components\NestedVariants;
 use App\Models\Product;
 use Filament\Forms;
@@ -27,6 +28,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
+    protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Form $form): Form
     {
@@ -57,16 +59,7 @@ class ProductResource extends Resource
                             ->optimize('webp')
                             ->image()
                             ->imageEditor()
-                    ])->icon('heroicon-o-tag'),
-                    Tab::make('Variants')->schema([
-                        AdjacencyList::make('variants')
-                            ->form([
-                                Forms\Components\TextInput::make('label')->required(),
-                                Forms\Components\TextInput::make('type')->required(),
-                                Forms\Components\TextInput::make('price')->numeric(),
-                                Forms\Components\TextInput::make('SKU')->label('SKU'),
-                            ])
-                    ])->icon('heroicon-o-rectangle-stack')
+                    ])->icon('heroicon-o-tag')
                 ]),
             ])->columns(1);
     }
@@ -101,7 +94,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\VariationsRelationManager::class
         ];
     }
 
