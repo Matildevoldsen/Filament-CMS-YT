@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cart_id')->constrained('carts')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->json('variant')->nullable();
+            $table->foreignId('variant_id')->nullable()->constrained('product_variations')->cascadeOnDelete();
             $table->integer('quantity');
             $table->timestamps();
         });

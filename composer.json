@@ -11,7 +11,7 @@
         "php": "^8.1",
         "awcodes/filament-tiptap-editor": "^3.0",
         "cknow/laravel-money": "^7.2",
-        "filament/filament": "^3.0-stable",
+        "filament/filament": "^v3.1.14",
         "filament/spatie-laravel-media-library-plugin": "^3.0-stable",
         "guzzlehttp/guzzle": "^7.2",
         "hasnayeen/themes": "^3.0",
@@ -27,6 +27,7 @@
         "z3d0x/filament-fabricator": "^2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.9",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
