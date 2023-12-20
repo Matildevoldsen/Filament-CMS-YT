@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
@@ -31,6 +32,11 @@ class ProductVariation extends Model implements HasMedia
         static::creating(function ($variation) {
             $variation->order = ProductVariation::where('product_id', $variation->product_id)->max('order') + 1;
         });
+    }
+
+    public function stock(): HasOne
+    {
+        return $this->hasOne(Stock::class, 'variant_id');
     }
 
     public function product(): BelongsTo

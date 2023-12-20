@@ -2,12 +2,44 @@
 
 namespace App\Livewire;
 
-use App\Services\CartManager;
 use Livewire\Component;
+use App\Services\CartManager;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CartItem extends Component
 {
     public $item;
+
+    public function getCartProperty()
+    {
+        return app(CartManager::class);
+    }
+
+    public function increment()
+    {
+        $this->item->quantity += 1;
+        $this->item->save();
+        $item = $this->item->variant ?? $this->item->product;
+
+        $item->stock->decrementStock(1);
+
+        $this->dispatch('cart.updated');
+    }
+
+    public function decrement()
+    {
+        $this->item->quantity -= 1;
+        $this->item->save();
+        $item = $this->item->variant ?? $this->item->product;
+
+        $item->stock->incrementStock(1);
+
+        if ($this->item->quantity == 0) {
+            $this->remove();
+        }
+
+        $this->dispatch('cart.updated');
+    }
 
     public function remove()
     {

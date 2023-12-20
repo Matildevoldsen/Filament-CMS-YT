@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\Contracts\CartManager as CartInterface;
 use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 
 class CartManager implements CartInterface
 {
@@ -56,6 +57,11 @@ class CartManager implements CartInterface
             $item->quantity += $quantity;
             $item->save();
 
+
+            if ($item->product) {
+                $item->product->stock->decrementStock($quantity);
+            }
+
             return;
         }
 
@@ -69,17 +75,16 @@ class CartManager implements CartInterface
             $item->variant_id = $variantId;
         }
 
+        if ($item->product) {
+            $item->product->stock->decrementStock($quantity);
+        }
+
         $item->save();
     }
 
     public function getItemsCount(): int
     {
         return $this->getCart()->items()->count();
-    }
-
-    public function update()
-    {
-        
     }
 
     public function getCart()
