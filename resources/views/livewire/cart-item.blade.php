@@ -15,7 +15,9 @@
             </div>
 
             <div class="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
-                <p class="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">{{ money($item->product->price) }}</p>
+                <p class="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">
+                    {{ money($item->variant ? $item->variant->price : $item->product->price) }}
+                </p>
 
                 <div class="sm:order-1">
                     <div class="mx-auto flex h-8 items-stretch text-gray-600">

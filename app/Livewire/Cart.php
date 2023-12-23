@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Services\CartManager;
 
 class Cart extends Component
 {
@@ -10,6 +11,11 @@ class Cart extends Component
     protected $listeners = [
         'cart.updated' => '$refresh'
     ];
+
+    public function getCartProperty()
+    {
+        return app(CartManager::class);
+    }
 
     public function render()
     {

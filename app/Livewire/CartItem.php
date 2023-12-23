@@ -35,7 +35,7 @@ class CartItem extends Component
         $item->stock->incrementStock(1);
 
         if ($this->item->quantity == 0) {
-            $this->remove();
+            $this->item->delete();
         }
 
         $this->dispatch('cart.updated');
@@ -44,6 +44,10 @@ class CartItem extends Component
     public function remove()
     {
         $this->item->delete();
+
+        $item = $this->item->variant ?? $this->item->product;
+
+        $item->stock->incrementStock($this->item->quantity);
 
         $this->dispatch('cart.updated');
     }

@@ -98,6 +98,25 @@ class CartManager implements CartInterface
 
     public function getSubtotal()
     {
+        $subtotal = 0;
 
+        $cartItems = $this->getCart()->items;
+
+        foreach ($cartItems as $item) {
+            if ($item->variant) {
+                $price = $item->variant->price;
+            } else {
+                $price = $item->product->price;
+            }
+
+            $subtotal += $price * $item->quantity;
+        }
+
+        return $subtotal;
+    }
+
+    public function getTotal()
+    {
+        return $this->getSubtotal();
     }
 }

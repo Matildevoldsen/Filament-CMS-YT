@@ -25,7 +25,7 @@
                             <x-button wire:click="addToCart">
                                 Pay {{ money($product->price) }}
                             </x-button>
-                        @elseif(!empty($product->variations))
+                        @elseif($product->variations->count() === 0)
                             <x-button wire:click="addToCart">
                                 Pay {{ money($product->price) }}
                             </x-button>
