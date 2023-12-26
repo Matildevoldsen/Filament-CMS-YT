@@ -8,6 +8,7 @@ use App\Filament\Resources\NavigationResource;
 use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\PostResource;
 use App\Filament\Resources\ProductResource;
+use App\Filament\Resources\ShippingTypeResource;
 use App\Filament\Resources\StockResource;
 use App\Filament\Resources\UserResource;
 use Filament\Http\Middleware\Authenticate;
@@ -55,6 +56,7 @@ class AdminPanelProvider extends PanelProvider
                         ...OrderResource::getNavigationItems(),
                         ...ProductResource::getNavigationItems(),
                         ...StockResource::getNavigationItems(),
+                        ...ShippingTypeResource::getNavigationItems(),
                     ]),
                     NavigationGroup::make('Content')->items([
                         ...PostResource::getNavigationItems(),
