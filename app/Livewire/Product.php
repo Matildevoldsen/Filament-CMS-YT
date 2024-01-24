@@ -22,7 +22,8 @@ class Product extends Component
     {
         $cart = app(CartManager::class);
 
-        $productVariation = ProductVariation::find($this->finalVariantId);
+        $productVariation = ProductVariation::findOrFail($this->finalVariantId);
+
 
         $cart->add($productVariation->product->id, $productVariation->id);
 

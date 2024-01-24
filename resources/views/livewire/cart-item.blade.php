@@ -1,6 +1,6 @@
 <li class="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0">
     <div class="shrink-0">
-        <img class="h-24 w-24 max-w-full rounded-lg object-cover" src="{{ $item->variant->getFirstMediaUrl() }}" alt="{{ $item->variant->title }}"/>
+        <img class="lg:h-24 lg:w-24 w-full max-w-full rounded-lg object-cover" src="{{ $item->variant->getFirstMediaUrl() }}" alt="{{ $item->variant->title }}"/>
     </div>
 
     <div class="relative flex flex-1 flex-col justify-between">

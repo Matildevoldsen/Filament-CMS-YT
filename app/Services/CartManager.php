@@ -114,9 +114,4 @@ class CartManager implements CartInterface
 
         return $subtotal;
     }
-
-    public function getTotal()
-    {
-        return $this->getSubtotal();
-    }
 }

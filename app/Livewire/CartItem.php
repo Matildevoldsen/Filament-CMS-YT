@@ -38,7 +38,6 @@ class CartItem extends Component
             $this->item->delete();
         }
 
-        $this->dispatch('cart.updated');
     }
 
     public function remove()

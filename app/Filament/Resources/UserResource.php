@@ -36,7 +36,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('profile_photo_url')->rounded(),
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('email')->copyable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
             ])
             ->filters([
