@@ -114,4 +114,9 @@ class CartManager implements CartInterface
 
         return $subtotal;
     }
+
+    public function clear()
+    {
+        $this->getCart()->items()->delete();
+    }
 }

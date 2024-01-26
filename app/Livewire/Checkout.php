@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Masmerise\Toaster\Toaster;
 use Stripe\PaymentIntent;
 use Livewire\Attributes\On;
 use App\Models\ShippingType;
@@ -22,6 +23,7 @@ class Checkout extends Component
     public $showAddressForm = false;
     public $shippingType;
     public $shippingTypeModel;
+    public $address_model;
 
     protected $listeners = [
         'cart.updated' => '$refresh',
@@ -53,6 +55,7 @@ class Checkout extends Component
         $this->shippingType = $this->shippingTypes->first()->id;
         $this->shippingTypeModel = $this->shippingTypes->first();
         $this->customerForm->email = auth()->user()->email ?? null;
+        $this->address_model = $this->addresses->first()->id ?? null;
         if (!auth()->check()) {
             $this->showAddressForm = true;
         }
@@ -93,50 +96,28 @@ class Checkout extends Component
     {
         $this->dispatch('submitPayment');
 
-        // Set your Stripe secret key
-        Stripe::setApiKey(config('stripe.secret'));
+        $user = auth()->user();
 
-        // Ensure the user has a Stripe customer ID
-        $user = Auth::user();
         if (!$user->stripe_id) {
-            $stripeCustomer = $user->createAsStripeCustomer();
+            $user->createAsStripeCustomer();
         }
 
-        try {
-            // Create a Payment Intent with the order amount and currency
-            $paymentIntent = PaymentIntent::create([
-                'amount' => $this->total * 100, // Convert amount to cents
-                'currency' => 'usd', // Change to your currency
-                'payment_method' => $paymentMethodId,
-                'customer' => $user->stripe_id,
-                'confirmation_method' => 'automatic',
-                'confirm' => true,
-            ]);
+        auth()->user()->addPaymentMethod($paymentMethodId['id']);
 
-            // Check the status of the payment
-            if ($paymentIntent->status === 'requires_action') {
-                // Handle additional authentication
-                $this->handleAdditionalAuthentication($paymentIntent);
-            } elseif ($paymentIntent->status === 'succeeded') {
-                // Handle successful payment
-                $this->handleSuccessfulPayment($paymentIntent);
-            } else {
-                // Payment failed
-                $this->addError('payment', 'Payment failed.');
-            }
-        } catch (\Exception $e) {
-            // Handle error
-            $this->addError('payment', $e->getMessage());
-        }
-    }
+        $user->charge($this->total, $paymentMethodId['id'], [
+            'return_url' => route('home') . '?success=true',
+        ]);
 
-    protected function handleAdditionalAuthentication($paymentIntent)
-    {
-        // Redirect to Stripe's authentication page or handle it as needed
-    }
+        app(CartManager::class)->clear();
 
-    protected function handleSuccessfulPayment($paymentIntent)
-    {
-        // Update order status and perform post-payment actions
+        $order = $user->orders()->create([
+            'total' => $this->total,
+            'address_id' => $this->address_model,
+            'email' => $this->customerForm->email,
+        ]);
+
+        Toaster::success('Order placed successfully!');
+
+        $this->redirect(route('home') . '?orderId=' . $order->uuid);
     }
 }

@@ -5,30 +5,23 @@
         email: @entangle('accountForm.email').defer,
 
         async submit () {
-            await $wire.callValidate()
-
-            let errorCount = await $wire.getErrorCount()
-            if (errorCount >= 1) {
-                return
+            if (!this.stripe || !this.cardElement) {
+                console.log('Stripe.js has not loaded yet.')
+                return;
             }
-
-            const { paymentIntent, error } = await this.stripe.confirmCardPayment(
-                '{{ $this->setupIntent->client_secret }}', {
-                    payment_method: {
-                        card: this.cardElement,
-                        billing_details: { email: this.email }
-                    }
+            const { paymentMethod, error } = await this.stripe.createPaymentMethod(
+                'card', this.cardElement, {
+                    billing_details: { email: this.email }
                 }
-            )
+            );
 
             if (error) {
                 console.log(error)
             } else {
-                $wire.checkout()
+                $wire.checkout(paymentMethod)
             }
         },
-
-        init () {
+        init() {
             this.stripe = Stripe('{{ config('stripe.key') }}')
 
             const elements = this.stripe.elements()
@@ -75,9 +68,11 @@
 
         @if (auth()->check() && $this->addresses?->count() > 0)
             <div class="mt-3">
-                <label for="address_select" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+                <label for="address_model" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
                     Address</label>
-                <select name="address_select" id="address"
+                <select name="address_model"
+                        id="address_model"
+                        wire:model.live="address_model"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @foreach ($this->addresses as $address)
                         <option value="{{ $address->id }}">
@@ -100,7 +95,7 @@
             <div class="mt-3">
                 <label for="address_line_1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address
                     Line 1</label>
-                <input wire:model="addressForm.address" type="text" id="address_line_1"
+                <input wire:model.live="addressForm.address" type="text" id="address_line_1"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Address Line 1">
                 @error('addressForm.address')
@@ -112,7 +107,7 @@
             <div class="mt-3">
                 <label for="address_line_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address
                     Line 2</label>
-                <input wire:model="addressForm.address_2" type="text" id="address_line_2"
+                <input wire:model.live="addressForm.address_2" type="text" id="address_line_2"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Address Line 2">
                 @error('addressForm.address_2')
@@ -161,8 +156,8 @@
             <select wire:model.live="shippingType" name="shipping_types" id="shipping_types"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($this->shippingTypes as $shippingType)
-                    <option value="{{ $shippingType->id }}">{{ $shippingType->name }} ({{ money($shippingType->price )}}
-                        )
+                    <option value="{{ $shippingType->id }}">
+                        {{ $shippingType->name }} ({{ money($shippingType->price )}})
                     </option>
                 @endforeach
             </select>
@@ -212,10 +207,10 @@
                         </div>
 
                         <div class="mt-6 text-center">
-                            <x-button id="card-button" type="submit"
+                            <button id="card-button" type="submit"
                                       class="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800">
                                 Pay {{ money($this->total) }}
-                            </x-button>
+                            </button>
                         </div>
                     </div>
                 </div>
