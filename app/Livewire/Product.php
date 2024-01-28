@@ -7,6 +7,7 @@ use App\Services\CartManager;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Product as ProductModel;
+use Masmerise\Toaster\Toaster;
 
 class Product extends Component
 {
@@ -28,6 +29,9 @@ class Product extends Component
         $cart->add($productVariation->product->id, $productVariation->id);
 
         $this->dispatch('cart.updated');
+
+        Toaster::success('Product ' . $productVariation->product->title . ' added to cart');
+
     }
 
     public function render()

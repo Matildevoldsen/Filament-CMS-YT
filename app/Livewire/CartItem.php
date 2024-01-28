@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Services\CartManager;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Masmerise\Toaster\Toaster;
 
 class CartItem extends Component
 {
@@ -24,6 +25,8 @@ class CartItem extends Component
         $item->stock->decrementStock(1);
 
         $this->dispatch('cart.updated');
+
+        Toaster::success('Quantity increased for ' . $item->title);
     }
 
     public function decrement()
@@ -38,6 +41,7 @@ class CartItem extends Component
             $this->item->delete();
         }
 
+        Toaster::success('Quantity decreased for ' . $item->title);
     }
 
     public function remove()
@@ -49,6 +53,7 @@ class CartItem extends Component
         $item->stock->incrementStock($this->item->quantity);
 
         $this->dispatch('cart.updated');
+        Toaster::success('Item ' . $item->title . ' removed from cart');
     }
 
     public function render()

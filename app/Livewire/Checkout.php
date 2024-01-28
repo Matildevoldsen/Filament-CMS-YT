@@ -55,7 +55,7 @@ class Checkout extends Component
         $this->shippingType = $this->shippingTypes->first()->id;
         $this->shippingTypeModel = $this->shippingTypes->first();
         $this->customerForm->email = auth()->user()->email ?? null;
-        $this->address_model = $this->addresses->first()->id ?? null;
+        $this->address_model = $this?->addresses?->first()->id ?? null;
         if (!auth()->check()) {
             $this->showAddressForm = true;
         }
